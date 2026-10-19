@@ -2,6 +2,7 @@
  "tf": {
   "1d": {
    "alerted": {
+    "ALT": "upper",
     "BERA": "lower",
     "XMR": "upper"
    },
