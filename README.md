@@ -37,3 +37,10 @@ Secrets are never visible in a public repo. `state.json` only holds cached close
 - Candles align to UTC (4h candles open at 5pm, 9pm, 1am... Pacific during daylight time).
 - Each coin alerts once per band per candle per timeframe; it can alert again on the next candle.
 - Coins with less than 20 candles of history are skipped.
+
+## Grid fill alerts
+`grid_fills.py` runs in the same workflow: every new BTC/USDC spot buy/sell on your
+Hyperliquid wallet becomes a Telegram message (sells include realized profit, matched
+to the most recent buy). Add the `HL_WALLET` secret to turn it on. The first run only
+records a starting point; alerts begin with fills after that. Perp fills are ignored.
+Nothing about trades is printed to the (public) Actions log.
