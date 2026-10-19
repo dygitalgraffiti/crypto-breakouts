@@ -1,0 +1,43 @@
+name: Breakout alerts
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"   # every 15 min (GitHub may run a few minutes late)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write            # to save state.json
+
+concurrency:
+  group: breakouts
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - run: pip install requests
+
+      - name: Check for breakouts
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TOP_N: "100"           # top N Hyperliquid perps by 24h volume
+          LOOKBACK_DAYS: "20"    # Turtle system 1; try "55" for system 2
+          EXCLUDE: ""            # e.g. "BTC,ETH" to skip coins you already watch
+        run: python breakouts.py
+
+      - name: Save state
+        run: |
+          git config user.name "breakout-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add state.json
+          git diff --cached --quiet || git commit -m "chore: update breakout state"
+          git push
