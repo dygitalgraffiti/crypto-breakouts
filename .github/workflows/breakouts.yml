@@ -1,8 +1,7 @@
 name: BB band alerts
 
 on:
-  schedule:
-    - cron: "*/15 * * * *"   # every 15 min (GitHub may run a few minutes late)
+  schedule:    - cron: "7,22,37,52 * * * *"   # every 15 min (GitHub may run a few minutes late)
   workflow_dispatch: {}
 
 permissions:
