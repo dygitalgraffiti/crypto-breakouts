@@ -29,7 +29,7 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          TOP_N: "100"             # top N Hyperliquid perps by 24h volume
+          TOP_N: "25"             # top N Hyperliquid perps by 24h volume
           TIMEFRAMES: "4h,1d"      # any of 1h,2h,4h,8h,12h,1d
           BB_LENGTH: "20"
           BB_MULT: "2"
